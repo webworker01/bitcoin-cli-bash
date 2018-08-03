@@ -2,7 +2,7 @@
 
 A BASH CLI JSON RPC Interface for Bitcoin and compatible coins.
 
-Bitcoin already has a bitcoin-cli program so while this script will work with Bitcoin, it's most useful for altcoins that do not have one compiled for their coin, but still have JSON RPC.
+Bitcoin already has a bitcoin-cli program so while this script will work with Bitcoin, it's probably most useful for altcoins that do not have one compiled for their coin, but still have JSON RPC.
 
 ## Requirements
 
@@ -45,3 +45,6 @@ Just make a copy of the file under whatever name makes sense and fill in the app
 ./bitcoin-cli listunspent 0
 ```
 
+## Todo
+
+So far only simple commands have been verified. Will need to test with more advanced commands e.g. raw transactions etc.  Help and feedback with this are welcome, please submit an issue on github
