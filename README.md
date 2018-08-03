@@ -20,6 +20,7 @@ In your terminal run ./bitcoin-cli to see help with a list of available commands
 
 You can install for system-wide usage by symlinking 
 
+**_WARNING_ - this has security implications, make sure you understand the risks before taking this particular step**
 ```
 ln -s /home/user/bitcoin-cli-bash/bitcoin-cli /usr/local/bin/bitcoin-cli
 ```
