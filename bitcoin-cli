@@ -1,0 +1,60 @@
+#!/bin/bash
+#
+# bitcoin-cli-bash
+# A BASH CLI JSON RPC Interface for Bitcoin and compatible coins
+#
+# Requires jq (apt-get install jq)
+#
+# Simply fill in your rpc user, pass and port in the variables below to begin using
+#
+# @author https://webworker.sh
+# @repo https://github.com/webworker01/bitcoin-cli-bash
+# @license GPL V3.0
+
+rpcuser=bitcoinrpc
+rpcpassword=supersecurepassword
+rpcport=8332
+
+if [[ ! -z $1 ]]; then
+    method=$1
+    shift
+else
+    method=help
+fi
+
+if [ $# -ge 1 ]; then
+    if [[ "$1" ]]; then
+        params="\"$1\""
+        shift
+    else
+        params="\"\""
+        shift
+    fi
+
+    while (( "$#" )); do
+        if [[ "$1" ]]; then
+            params="$params, $1"
+            shift
+        else
+            params='$params, ""'
+            shift
+        fi
+    done
+fi
+
+paramsjson="[$params]"
+
+result=$(curl -s --user "$rpcuser":"$rpcpassword" --data-binary "{\"jsonrpc\": \"1.0\", \"id\":\"curltext\", \"method\": \"$method\", \"params\": $paramsjson}" -H "content-type: text/plain;" http://127.0.0.1:$rpcport/)
+resulterror=$(echo $result | jq -r .error)
+
+rawprint=(help)
+
+if [[ "$resulterror" == "null" ]]; then
+    if [[ " ${rawprint[@]} " =~ " ${method} " ]]; then
+       echo $result | jq -r .result
+    else
+       echo $result | jq .result
+    fi
+else
+   echo $resulterror | jq -r .message
+fi
